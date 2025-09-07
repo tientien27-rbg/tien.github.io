@@ -46,31 +46,6 @@
 
 ---
 
-## 🛠 Cài đặt & chạy
-
-1. Cài Python & thư viện:
-
-```bash
-python -m pip install --upgrade pip
-pip install "python-telegram-bot>=20" requests
-```
-
-2. Tạo bot và lấy token tại `@BotFather` trên Telegram, thay vào biến:
-
-```python
-BOT_TOKEN = "PASTE_TOKEN_CỦA_BẠN"
-```
-
-3. Chạy bot:
-
-```bash
-python biendong24h.py
-```
-
-> Bot sẽ **load danh sách spot USDT** để bắt coin. Sử dụng /start để mở Menu.
-
----
-
 ## ⌨️ Lệnh cơ bản (slash commands)
 
 * `/start` – Mở menu chính.
@@ -82,6 +57,7 @@ python biendong24h.py
 * `/cvd` – CVD 24h vs 24–48h trước.
 * `/funding` – Funding bình quân 24h vs 24–48h trước.
 * `/long`, `/short` – Bot hỏi khung (5m/30m/4H/D1).
+* `/help` - Web hướng dẫn sử dụng bot
 
   * Alias nhanh: `/long5m`, `/long30m`, `/longh4`, `/longd1`, tương tự cho short.
 * `/smart` – Mở nhanh menu **Smart Money**.
@@ -94,31 +70,29 @@ python biendong24h.py
 
 ### 4.1. Spot
 
-* **📈 Volume spike** – Tìm nến hiện tại có **khối lượng gấp** `SPIKE_RATIO` lần trung bình `BASE_CANDLES_FOR_SPIKE` nến trước và vượt ngưỡng tối thiểu theo khung (`MIN_VOL_BY_TF`).
-* **🧨 Trade-count spike** – Tìm nến có **số lệnh** tăng đột biến (≥ `COUNT_RATIO` × trung bình) **và** size trung bình ≥ `AVG_SIZE_MIN_USDT`.
-* **💥 Big trade** – Giá trị giao dịch lớn nhất trong cửa sổ 4H hoặc 1D (lọc theo `BIG_TRADE_USDT`).
+* **📈 Volume spike** – Tìm nến hiện tại có **khối lượng đột biến** nến trước.
+* **🧨 Trade-count spike** – Tìm nến có **số lệnh** tăng đột biến.
+* **💥 Big trade** – Giá trị giao dịch lớn nhất trong khung 4H hoặc 1D.
 
 ### 4.2. Volume/MarketCap (V/C)
 
-* **⬆️ V/C cao 24h / 30p** – Vol lớn so với vốn hóa → thường báo vốn nhỏ nhưng giao dịch sôi động.
+* **⬆️ V/C cao 24h / 30p** – Vol lớn so với vốn hóa (vốn nhỏ nhưng giao dịch sôi động).
 * **⬇️ V/C thấp 24h / 30p** – Lọc dự án vol thấp so với MC.
 
-> Vol lấy từ Binance, MarketCap lấy từ CoinGecko.
 
 ### 4.3. Volume Delta (CVD ngắn hạn theo giao dịch)
 
-* **Δ dương/âm (N trade)** – Lấy chênh lệch buy/sell trên `AGG_TRADES` số lượng giới hạn (`DELTA_TRADES_LIMIT`).
-* **Δ 1h / 24h** – Cộng dồn buy-sell theo mốc thời gian.
+* **Δ dương/âm (N trade)** – Chênh lệch buy/sell.
+* **Δ 1h / 24h** – Chênh lệch buy/sell.
 
 ### 4.4. Tỷ lệ Long/Short cao
 
-* Dựa trên **Global Long/Short Account Ratio** (toàn bộ người dùng futures).
+* Toàn bộ người dùng futures.
 * Top theo **% Long** hoặc **% Short** cho từng khung (5m/30m/4H/D1).
-* Phù hợp để nắm **bias đám đông**.
 
 ### 4.5. Futures: OI/Funding/Borrow
 
-* **OI đột biến (⬆️/⬇️)** – So sánh ΔOI gần nhất với trung bình |Δ| 12 bước gần nhất; lọc theo `OI_SPIKE_RATIO` và tuyệt đối ≥ `OI_SPIKE_ABS_MIN_USD`.
+* **OI đột biến (⬆️/⬇️)**.
 * **Funding (24h)** – Trung bình funding 24h (dương/âm).
 * **Borrow Ratio (24h)** – Dùng **Taker long/short Ratio 1D** như proxy:
 
@@ -133,7 +107,6 @@ Bộ 3 góc nhìn về **“tay to”**:
 
    * **👤 Accounts**: % tài khoản top đang Long/Short.
    * **💼 Positions**: % **khối lượng vị thế** Long/Short của top.
-   * Có hiển thị **xu hướng** so với kỳ trước (↑/↓/→) nếu đủ dữ liệu.
 
 2. **🛒 Taker Buy/Sell (coin đang chọn)**
 
@@ -144,7 +117,6 @@ Bộ 3 góc nhìn về **“tay to”**:
    * **Acc Long / Acc Short**
    * **Pos Long / Pos Short**
    * **Taker Buy / Taker Sell**
-     → Trả về **Top N** symbol có % cao nhất theo tiêu chí.
 
 > **Khác biệt với “Tỷ lệ Long/Short cao”**:
 >
@@ -162,8 +134,6 @@ Bộ 3 góc nhìn về **“tay to”**:
 * **Global Long/Short Account Ratio**
   % tài khoản (tất cả user) đang Long/Short.
 * **Top Trader Acc/Pos Ratio**
-  Chỉ lấy **cohort “Top Traders”** của Binance.
-
   * *Acc* = tỷ lệ tài khoản top.
   * *Pos* = tỷ trọng **khối lượng vị thế** của top.
 * **Taker Buy/Sell Ratio**
@@ -178,7 +148,6 @@ Bộ 3 góc nhìn về **“tay to”**:
 ## 🔔 Cảnh báo tự động (Job)
 
 * Bật bằng `/alerts_on`, tắt `/alerts_off`.
-* Chu kỳ gửi: `ALERT_INTERVAL_SEC` (mặc định 60s).
 * Gửi tóm tắt:
 
   * 📈 3 dòng đầu của **Volume spike 5m**
@@ -200,7 +169,7 @@ Bộ 3 góc nhìn về **“tay to”**:
 ## ❓ FAQ
 
 **Q1. Vì sao ấn “Top list Smart Money” rồi chọn nhóm mà không thấy dữ liệu?**
-– Có thể do Binance tạm trễ endpoint top-trader/taker theo khung quá ngắn. Thử khung **30m/4H/D1** hoặc thử lại sau một lát.
+– Hãy thử lại khung lớn hơn vì khung nhỏ binance chưa trả dữ liệu. Thử khung **30m/4H/D1** hoặc thử lại sau một lát.
 
 **Q2. “Tỷ lệ Long/Short cao” khác gì “Smart Money”?**
 – *Tỷ lệ Long/Short cao* là **toàn bộ user**. *Smart Money* là **Top Traders** và có thêm **Pos** (khối lượng vị thế) + **Taker** (order flow).
@@ -210,39 +179,6 @@ Bộ 3 góc nhìn về **“tay to”**:
 
 **Q4. V/C cao có nghĩa nên mua?**
 – Không. V/C chỉ là **điểm bất thường về dòng tiền** so với vốn hóa. Hãy kết hợp thêm OI/Funding/Price Action/Smart Money.
-
----
-
-### 📎 Tham số quan trọng (có thể chỉnh)
-
-```python
-ALERT_TOP_SYMBOLS = 40
-SCAN_TOP_SHOW     = 10
-ALERT_INTERVAL_SEC = 60
-
-BASE_CANDLES_FOR_SPIKE = 12
-SPIKE_RATIO            = 3.0
-MIN_VOL_BY_TF = {"5m":2_000_000, "30m":5_000_000, "4h":20_000_000, "1d":50_000_000}
-
-COUNT_RATIO        = 2.5
-AVG_SIZE_MIN_USDT  = 50_000
-
-BIG_TRADE_USDT = 200_000
-
-FUT_SCAN_SYMBOLS     = 60
-OI_SPIKE_RATIO       = 3.0
-OI_SPIKE_ABS_MIN_USD = 20_000_000
-TAKER_PERIOD         = "1d"
-
-SMART_LIST_SCAN_SYMBOLS = 200
-```
-
----
-
-### 🛡️ Bảo mật
-
-* Không commit **BOT\_TOKEN** thật lên GitHub công khai. Dùng biến môi trường hoặc `.env`.
-* Token rò rỉ → vào `@BotFather` **/revoke** và tạo token mới.
 
 ---
 
