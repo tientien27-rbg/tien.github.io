@@ -1,4 +1,4 @@
-# rkt.github.io
+# Rich Kid Trading.github.io
 
 # Hướng Dẫn Bắt Đầu Sử Dụng Bot Tín Hiệu 🚀
 
