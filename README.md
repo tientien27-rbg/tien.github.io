@@ -1,6 +1,6 @@
-# tien.github.io
+# rkt.github.io
 
-# Hướng Dẫn Bắt Đầu Sử Dụng Bot 🚀
+# Hướng Dẫn Bắt Đầu Sử Dụng Bot Tín Hiệu 🚀
 
 ## 📌 Mục Lục
 
@@ -49,6 +49,8 @@
 ## ⌨️ Lệnh cơ bản (slash commands)
 
 * `/start` – Mở menu chính.
+* `/help` – Hướng dẫn sử dụng bot.
+* `/ping` – Xem kết nối có bị lag không.
 * `/coin` – Xem/đổi coin mặc định (ví dụ: `/coin btc`, `/coin solusdt`).
 * `/gia` – Giá + %24h + so sánh Vol 24h với 24h trước.
 * `/vc` – Tính V/C (Vol24h / MarketCap).
@@ -57,12 +59,14 @@
 * `/cvd` – CVD 24h vs 24–48h trước.
 * `/funding` – Funding bình quân 24h vs 24–48h trước.
 * `/long`, `/short` – Bot hỏi khung (5m/30m/4H/D1).
-* `/help` - Web hướng dẫn sử dụng bot
 
   * Alias nhanh: `/long5m`, `/long30m`, `/longh4`, `/longd1`, tương tự cho short.
 * `/smart` – Mở nhanh menu **Smart Money**.
 * `/alerts_on` – Bật cảnh báo tự động (mặc định 60s).
-* `/alerts_off` – Tắt cảnh báo tự động.
+* `/alerts_off` – Tắt cảnh báo tự động (mặc định 60s).
+* `/scan` – Tìm coin scan trong top mình cần tìm để lọc ra coin tìm năng, có volume mua thật không phải bot đẩy để marketing.
+* `/scangem` – Tìm coin trong hết tất cả ở sàn cho ra kết quả delta/(v/mc) từ trên xuống dưới.
+* `/scantim` – Tìm coin mình tìm xem volume đó thật hay là ảo.
 
 ---
 
